@@ -52,6 +52,7 @@ OUR_TOOLS := \
     ps \
     prlimit \
     renice \
+    restart \
     sendevent \
     start \
     stop \
