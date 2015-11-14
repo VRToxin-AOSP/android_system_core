@@ -41,6 +41,9 @@ event_flag := -DAUDITD_LOG_TAG=1003 -DLOGD_LOG_TAG=1004
 
 LOCAL_CFLAGS := -Werror $(event_flag)
 
+# libaudit.c get_ack return value generation
+LOCAL_CFLAGS += -fno-strict-aliasing
+
 include $(BUILD_EXECUTABLE)
 
 include $(CLEAR_VARS)

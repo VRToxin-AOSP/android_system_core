@@ -18,4 +18,6 @@ LOCAL_MODULE_TAGS := optional tests
 LOCAL_SHARED_LIBRARIES := liblog
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/include
 LOCAL_CFLAGS := -Werror
+# Violation in sync_test.c
+LOCAL_CFLAGS += -fno-strict-aliasing
 include $(BUILD_EXECUTABLE)

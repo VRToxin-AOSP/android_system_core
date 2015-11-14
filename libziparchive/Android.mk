@@ -33,7 +33,7 @@ LOCAL_SHARED_LIBRARIES := libutils libbase
 LOCAL_MODULE:= libziparchive
 LOCAL_CFLAGS := $(common_c_flags)
 LOCAL_CPPFLAGS := $(common_cpp_flags)
-LOCAL_CFLAGS += -fvisibility=default
+LOCAL_CFLAGS += -fvisibility=default -fno-strict-aliasing
 include $(BUILD_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
@@ -44,7 +44,7 @@ LOCAL_MODULE:= libziparchive-host
 LOCAL_CFLAGS := $(common_c_flags)
 LOCAL_CFLAGS_windows := -mno-ms-bitfields
 LOCAL_CPPFLAGS := $(common_cpp_flags)
-LOCAL_CFLAGS += -fvisibility=default
+LOCAL_CFLAGS += -fvisibility=default -fno-strict-aliasing
 LOCAL_MULTILIB := both
 include $(BUILD_HOST_STATIC_LIBRARY)
 
@@ -56,7 +56,7 @@ LOCAL_SHARED_LIBRARIES := liblog libbase
 LOCAL_MODULE:= libziparchive-host
 LOCAL_CFLAGS := $(common_c_flags)
 LOCAL_CPPFLAGS := $(common_cpp_flags)
-LOCAL_CFLAGS += -fvisibility=default
+LOCAL_CFLAGS += -fvisibility=default -fno-strict-aliasing
 LOCAL_MULTILIB := both
 include $(BUILD_HOST_SHARED_LIBRARY)
 
@@ -67,6 +67,7 @@ LOCAL_CPP_EXTENSION := .cc
 LOCAL_CFLAGS := $(common_c_flags)
 LOCAL_CPPFLAGS := $(common_cpp_flags)
 LOCAL_SRC_FILES := $(test_files)
+LOCAL_CFLAGS += -fno-strict-aliasing
 LOCAL_SHARED_LIBRARIES := liblog libbase
 LOCAL_STATIC_LIBRARIES := libziparchive libz libutils
 include $(BUILD_NATIVE_TEST)
