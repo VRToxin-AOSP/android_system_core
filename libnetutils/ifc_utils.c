@@ -252,7 +252,11 @@ int ifc_set_addr(const char *name, in_addr_t addr)
 int ifc_act_on_address(int action, const char *name, const char *address,
                        int prefixlen) {
     int ifindex, s, len, ret;
-    struct sockaddr_storage ss;
+    union {
+        struct sockaddr_storage ss;
+        struct sockaddr_in in;
+        struct sockaddr_in6 in6;
+    } sa;
     int saved_errno;
     void *addr;
     size_t addrlen;
@@ -278,19 +282,17 @@ int ifc_act_on_address(int action, const char *name, const char *address,
     }
 
     // Convert string representation to sockaddr_storage.
-    ret = string_to_ip(address, &ss);
+    ret = string_to_ip(address, &sa.ss);
     if (ret) {
         return ret;
     }
 
     // Determine address type and length.
-    if (ss.ss_family == AF_INET) {
-        struct sockaddr_in *sin = (struct sockaddr_in *) &ss;
-        addr = &sin->sin_addr;
+    if (sa.ss.ss_family == AF_INET) {
+        addr = &sa.in.sin_addr;
         addrlen = INET_ADDRLEN;
-    } else if (ss.ss_family == AF_INET6) {
-        struct sockaddr_in6 *sin6 = (struct sockaddr_in6 *) &ss;
-        addr = &sin6->sin6_addr;
+    } else if (sa.ss.ss_family == AF_INET6) {
+        addr = &sa.in6.sin6_addr;
         addrlen = INET6_ADDRLEN;
     } else {
         return -EAFNOSUPPORT;
@@ -306,7 +308,7 @@ int ifc_act_on_address(int action, const char *name, const char *address,
     req.n.nlmsg_pid = getpid();
 
     // Interface address message header.
-    req.r.ifa_family = ss.ss_family;
+    req.r.ifa_family = sa.ss.ss_family;
     req.r.ifa_prefixlen = prefixlen;
     req.r.ifa_index = ifindex;
 

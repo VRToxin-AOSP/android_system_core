@@ -26,6 +26,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := libusbhost
 LOCAL_SRC_FILES := usbhost.c
 LOCAL_CFLAGS := -Werror
+LOCAL_CFLAGS += -fno-strict-aliasing
 
 include $(BUILD_HOST_STATIC_LIBRARY)
 
@@ -40,6 +41,7 @@ LOCAL_MODULE := libusbhost
 LOCAL_SRC_FILES := usbhost.c
 
 LOCAL_CFLAGS := -g -DUSE_LIBLOG -Werror
+LOCAL_CFLAGS += -fno-strict-aliasing
 
 # needed for logcat
 LOCAL_SHARED_LIBRARIES := libcutils
@@ -54,5 +56,6 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := libusbhost
 LOCAL_SRC_FILES := usbhost.c
 LOCAL_CFLAGS := -Werror
+LOCAL_CFLAGS += -fno-strict-aliasing
 
 include $(BUILD_STATIC_LIBRARY)

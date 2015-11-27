@@ -16,6 +16,9 @@ LOCAL_MODULE := libnetutils
 
 LOCAL_CFLAGS := -Werror
 
+# netlink without type-punning is painful
+LOCAL_CFLAGS += -fno-strict-aliasing
+
 include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)

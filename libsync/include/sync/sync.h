@@ -24,15 +24,17 @@
 
 __BEGIN_DECLS
 
+typedef uint8_t __attribute__((__may_alias__)) uint8_ta;
+
 // XXX: These structs are copied from the header "linux/sync.h".
-struct sync_fence_info_data {
+struct __attribute__((__may_alias__)) sync_fence_info_data {
  uint32_t len;
  char name[32];
  int32_t status;
- uint8_t pt_info[0];
-};
+ uint8_ta pt_info[0];
+} __attribute__((may_alias));
 
-struct sync_pt_info {
+struct __attribute__((__may_alias__)) sync_pt_info {
  uint32_t len;
  char obj_name[32];
  char driver_name[32];

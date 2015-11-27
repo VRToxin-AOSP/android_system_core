@@ -69,6 +69,8 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := liblog
 LOCAL_SRC_FILES := $(liblog_target_sources)
 LOCAL_CFLAGS := -Werror $(liblog_cflags)
+# logger_for_each violates aliasing rules
+LOCAL_CFLAGS += -fno-strict-aliasing
 include $(BUILD_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
