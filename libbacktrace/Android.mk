@@ -19,6 +19,7 @@ LOCAL_PATH:= $(call my-dir)
 libbacktrace_common_cflags := \
 	-Wall \
 	-Werror \
+	-fvisibility=default
 
 libbacktrace_common_conlyflags := \
 	-std=gnu99 \

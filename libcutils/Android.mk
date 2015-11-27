@@ -74,6 +74,7 @@ LOCAL_STATIC_LIBRARIES := liblog
 ifneq ($(HOST_OS),windows)
 LOCAL_CFLAGS += -Werror
 endif
+LOCAL_CFLAGS += -fvisibility=default
 LOCAL_MULTILIB := both
 include $(BUILD_HOST_STATIC_LIBRARY)
 
@@ -84,6 +85,7 @@ LOCAL_SHARED_LIBRARIES := liblog
 ifneq ($(HOST_OS),windows)
 LOCAL_CFLAGS += -Werror
 endif
+LOCAL_CFLAGS += -fvisibility=default
 LOCAL_MULTILIB := both
 include $(BUILD_HOST_SHARED_LIBRARY)
 

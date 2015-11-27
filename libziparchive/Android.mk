@@ -33,6 +33,7 @@ LOCAL_SHARED_LIBRARIES := libutils libbase
 LOCAL_MODULE:= libziparchive
 LOCAL_CFLAGS := $(common_c_flags)
 LOCAL_CPPFLAGS := $(common_cpp_flags)
+LOCAL_CFLAGS += -fvisibility=default
 include $(BUILD_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
@@ -43,7 +44,7 @@ LOCAL_MODULE:= libziparchive-host
 LOCAL_CFLAGS := $(common_c_flags)
 LOCAL_CFLAGS_windows := -mno-ms-bitfields
 LOCAL_CPPFLAGS := $(common_cpp_flags)
-
+LOCAL_CFLAGS += -fvisibility=default
 LOCAL_MULTILIB := both
 include $(BUILD_HOST_STATIC_LIBRARY)
 
@@ -55,6 +56,7 @@ LOCAL_SHARED_LIBRARIES := liblog libbase
 LOCAL_MODULE:= libziparchive-host
 LOCAL_CFLAGS := $(common_c_flags)
 LOCAL_CPPFLAGS := $(common_cpp_flags)
+LOCAL_CFLAGS += -fvisibility=default
 LOCAL_MULTILIB := both
 include $(BUILD_HOST_SHARED_LIBRARY)
 
