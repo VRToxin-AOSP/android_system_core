@@ -25,6 +25,8 @@
 static void init_klog_vwrite(int level, const char* fmt, va_list ap) {
     static const char* tag = basename(getprogname());
 
+    if (level > klog_get_level()) return;
+
     char prefix[64];
     snprintf(prefix, sizeof(prefix), "<%d>%s: ", level, tag);
 
