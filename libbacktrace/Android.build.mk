@@ -70,6 +70,9 @@ LOCAL_LDLIBS := \
     $($(module)_ldlibs_$(build_type)) \
 
 ifeq ($(build_type),target)
+LOCAL_CFLAGS_arm += \
+	-O0 \
+
   include $(BUILD_$(build_target))
 endif
 
