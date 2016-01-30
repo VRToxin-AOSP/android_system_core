@@ -104,3 +104,17 @@ TEST(file, WriteFully) {
   ASSERT_TRUE(android::base::ReadFileToString(tf.filename, &s)) << errno;
   EXPECT_EQ("abc", s);
 }
+
+TEST(file, RemoveFileIfExist) {
+  TemporaryFile tf;
+  ASSERT_TRUE(tf.fd != -1);
+  close(tf.fd);
+  tf.fd = -1;
+  std::string err;
+  ASSERT_TRUE(android::base::RemoveFileIfExists(tf.path, &err)) << err;
+  ASSERT_TRUE(android::base::RemoveFileIfExists(tf.path));
+  TemporaryDir td;
+  ASSERT_FALSE(android::base::RemoveFileIfExists(td.path));
+  ASSERT_FALSE(android::base::RemoveFileIfExists(td.path, &err));
+  ASSERT_EQ("is not a regular or symbol link file", err);
+}
