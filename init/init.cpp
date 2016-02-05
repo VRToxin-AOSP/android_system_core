@@ -291,7 +291,7 @@ void service_start(struct service *svc, const char *dynamic_args)
         scon = NULL;
 
         if (svc->writepid_files_) {
-            std::string pid_str = android::base::StringPrintf("%d", pid);
+            std::string pid_str = android::base::StringPrintf("%d", getpid());
             for (auto& file : *svc->writepid_files_) {
                 if (!android::base::WriteStringToFile(pid_str, file)) {
                     ERROR("couldn't write %s to %s: %s\n",
