@@ -723,8 +723,9 @@ static int send_shell_command(transport_type transport_type, const char* serial,
             break;
         }
         fprintf(stderr,"- waiting for device -\n");
-        adb_sleep_ms(1000);
-        wait_for_device("wait-for-device", transport_type, serial);
+        if (!wait_for_device("wait-for-device", transport_type, serial)) {
+            return 1;
+        }
     }
 
     read_and_dump(fd);
