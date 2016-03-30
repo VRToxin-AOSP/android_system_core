@@ -111,6 +111,7 @@ static void __initialize(void) {
     sprintf(proc_name, "/proc/%d/cmdline", ptid);
 
     pfd = open(proc_name, O_RDONLY);
+    memset(proc_name, 0, sizeof(proc_name));
     if (pfd > 0) {
         read(pfd, proc_name, 254);
         close(pfd);
