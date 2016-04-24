@@ -55,14 +55,14 @@ static int check_response(usb_handle *usb, unsigned int size, char *response)
     for(;;) {
         r = usb_read(usb, status, 64);
         if(r < 0) {
-            sprintf(ERROR, "status read failed (%s)", strerror(errno));
+            snprintf(ERROR, sizeof(ERROR), "status read failed (%s)", strerror(errno));
             usb_close(usb);
             return -1;
         }
         status[r] = 0;
 
         if(r < 4) {
-            sprintf(ERROR, "status malformed (%d bytes)", r);
+            snprintf(ERROR, sizeof(ERROR), "status malformed (%d bytes)", r);
             usb_close(usb);
             return -1;
         }
@@ -81,7 +81,7 @@ static int check_response(usb_handle *usb, unsigned int size, char *response)
 
         if(!memcmp(status, "FAIL", 4)) {
             if(r > 4) {
-                sprintf(ERROR, "remote: %s", status + 4);
+                snprintf(ERROR, sizeof(ERROR), "remote: %s", status + 4);
             } else {
                 strcpy(ERROR, "remote failure");
             }
@@ -116,12 +116,12 @@ static int _command_start(usb_handle *usb, const char *cmd, unsigned size,
     }
 
     if(cmdsize > 64) {
-        sprintf(ERROR,"command too large");
+        snprintf(ERROR, sizeof(ERROR),"command too large");
         return -1;
     }
 
     if(usb_write(usb, cmd, cmdsize) != cmdsize) {
-        sprintf(ERROR,"command write failed (%s)", strerror(errno));
+        snprintf(ERROR, sizeof(ERROR),"command write failed (%s)", strerror(errno));
         usb_close(usb);
         return -1;
     }
@@ -135,12 +135,12 @@ static int _command_data(usb_handle *usb, const void *data, unsigned size)
 
     r = usb_write(usb, data, size);
     if(r < 0) {
-        sprintf(ERROR, "data transfer failure (%s)", strerror(errno));
+        snprintf(ERROR, sizeof(ERROR), "data transfer failure (%s)", strerror(errno));
         usb_close(usb);
         return -1;
     }
     if(r != ((int) size)) {
-        sprintf(ERROR, "data transfer failure (short transfer)");
+        snprintf(ERROR, sizeof(ERROR), "data transfer failure (short transfer)");
         usb_close(usb);
         return -1;
     }
@@ -206,7 +206,7 @@ int fb_download_data(usb_handle *usb, const void *data, unsigned size)
     char cmd[64];
     int r;
 
-    sprintf(cmd, "download:%08x", size);
+    snprintf(cmd, sizeof(cmd), "download:%08x", size);
     r = _command_send(usb, cmd, data, size, 0);
 
     if(r < 0) {
@@ -246,7 +246,7 @@ static int fb_download_data_sparse_write(void *priv, const void *data, int len)
 
     if (len > USB_BUF_SIZE) {
         if (usb_buf_len > 0) {
-            sprintf(ERROR, "internal error: usb_buf not empty\n");
+            snprintf(ERROR, sizeof(ERROR), "internal error: usb_buf not empty\n");
             return -1;
         }
         to_write = round_down(len, USB_BUF_SIZE);
@@ -260,7 +260,7 @@ static int fb_download_data_sparse_write(void *priv, const void *data, int len)
 
     if (len > 0) {
         if (len > USB_BUF_SIZE) {
-            sprintf(ERROR, "internal error: too much left for usb_buf\n");
+            snprintf(ERROR, sizeof(ERROR), "internal error: too much left for usb_buf\n");
             return -1;
         }
         memcpy(usb_buf, ptr, len);
@@ -294,7 +294,7 @@ int fb_download_data_sparse(usb_handle *usb, struct sparse_file *s)
         return -1;
     }
 
-    sprintf(cmd, "download:%08x", size);
+    snprintf(cmd, sizeof(cmd), "download:%08x", size);
     r = _command_start(usb, cmd, size, 0);
     if (r < 0) {
         return -1;
